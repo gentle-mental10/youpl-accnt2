@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090516"><title>YouPlay</title>
+<style>
+:root{--bg:#0a0920;--c:#12112b;--c2:#1e1c40;--ln:rgba(255,255,255,.09);--t:#f3f2ff;--s:#9694c0;--a:#a63dff;--a2:#d63dff;--g:166,61,255;--g2:214,61,255;--bgg:#4a1190;--on:#fff;--m:#ffcf4a;--r:#4fd6a0;--cy:#27f3ff}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;min-height:100vh;color:var(--t);font:15px/1.4 Inter,"Segoe UI",system-ui,sans-serif;background:radial-gradient(1200px 600px at 20% -10%,var(--bgg) 0,transparent 60%),var(--bg);padding-bottom:env(safe-area-inset-bottom)}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:calc(12px + env(safe-area-inset-top)) 14px 40px}
+header{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font:800 24px Inter,system-ui,sans-serif}
+.logo i{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-style:normal;background:linear-gradient(135deg,#7a5cff,#d63dff)}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.b,.acts button{background:rgba(255,255,255,.04);border:1px solid var(--ln);border-radius:12px;padding:9px 13px;cursor:pointer;white-space:nowrap}
+.seg{display:inline-flex;gap:4px;margin:14px 0;padding:6px;border:1px solid var(--ln);border-radius:16px;background:rgba(255,255,255,.03)}
+.seg button{border:0;background:none;padding:11px 18px;border-radius:12px;font-weight:700;color:var(--s)}
+.seg .on{background:linear-gradient(135deg,var(--a),var(--a2));color:#fff}
+.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.hero small{color:var(--cy);letter-spacing:3px;font-weight:700;font-size:12px}
+h1{margin:6px 0;font-size:clamp(32px,7vw,52px);letter-spacing:-1.5px;line-height:1.05}
+.hero p{margin:0;color:var(--s)}
+.cta{background:linear-gradient(135deg,var(--a),var(--a2));color:#fff;border:0;border-radius:14px;padding:14px 20px;font-weight:700}
+.row{display:flex;gap:10px;margin:18px 0 12px;flex-wrap:wrap}
+input[type=search],select,input[type=text],input[type=number],textarea{background:var(--c);border:1px solid var(--ln);border-radius:14px;padding:13px 14px}
+input[type=search]{flex:1;min-width:200px}
+.pills{display:flex;gap:8px;flex-wrap:wrap}.pills button{background:var(--c);border:1px solid var(--ln);border-radius:99px;padding:8px 15px}
+.pills .on{border-color:var(--a);background:rgba(var(--g),.25);box-shadow:0 0 14px rgba(var(--g),.55)}
+.sh{display:flex;justify-content:space-between;align-items:baseline;margin:22px 0 10px}.sh h2{margin:0;font-size:22px}.sh span{color:var(--s);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:14px}
+@media(min-width:700px){.grid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px}}
+.card{background:var(--c);border:1px solid var(--ln);border-radius:16px;overflow:hidden;cursor:pointer}
+.art{position:relative;aspect-ratio:3/4;background:var(--c2)}.art.sq{aspect-ratio:1}
+.art img,.ph{width:100%;height:100%;object-fit:cover;display:grid;place-items:center;font-size:48px;font-weight:800}
+.art .bd{position:absolute;top:10px;left:10px}
+.bd{font-size:12px;font-weight:700;border-radius:9px;padding:4px 9px;background:rgba(10,9,32,.85);color:#fff}
+.bd.must{background:var(--m);color:#1b1400}.bd.rec{background:var(--r);color:#04281c}
+.cb{padding:12px}.cb b{display:block}.cb em{display:block;font-style:normal;color:var(--s);font-size:13px}.sz{display:block;color:var(--s);font-size:13px;margin:8px 0}
+.tags{display:flex;flex-wrap:wrap;gap:5px}.tg{font-size:11px;padding:3px 8px;border:1px solid var(--ln);border-radius:8px;color:var(--s);background:rgba(255,255,255,.03)}.tg.on{background:rgba(var(--g),.3);color:#fff;border-color:var(--a);box-shadow:0 0 8px rgba(var(--g),.5)}
+.emp{color:var(--s);text-align:center;padding:50px 0;grid-column:1/-1}
+.ov{position:fixed;inset:0;z-index:10;overflow:auto;display:none;background:var(--bg);padding:calc(14px + env(safe-area-inset-top)) 16px 50px}.ov.open{display:block}
+.in{max-width:680px;margin:0 auto}
+#sh{background:rgba(4,3,14,.75);padding:0;z-index:20}
+.pan{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:680px;max-height:90%;overflow:auto;background:var(--c);border:1px solid var(--ln);border-radius:22px 22px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
+.sg{display:flex;background:var(--bg);border-radius:12px;padding:3px;margin:10px 0}.sg button{flex:1;border:0;background:none;border-radius:10px;padding:9px}.sg .on{background:var(--c2);font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.ch{background:var(--bg);border:1px solid var(--ln);border-radius:99px;padding:8px 13px}
+.ch.sel{font-weight:700;background:var(--a);border-color:var(--a)}.ch.sel.b2{background:#e5484d;border-color:#e5484d}
+.pri{background:linear-gradient(135deg,var(--a),var(--a2));color:#fff;font-weight:700;border:0;border-radius:14px;padding:15px;width:100%;margin:12px 0}.pri.done{background:var(--r);color:#04281c}
+.hint{color:var(--s)}.lnk{background:none;border:0;color:var(--s);text-decoration:underline;padding:8px 0;display:block}
+.hero2{display:flex;gap:16px;align-items:flex-end;margin:14px 0}.hero2 .art{width:150px;flex:none;border-radius:14px;overflow:hidden}.hero2 h2{margin:6px 0 2px;font-size:28px;letter-spacing:-.5px}
+.hs{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px}.hs .tg{font-size:14px;padding:7px 14px;flex:none}
+.mini{display:flex;gap:12px;overflow-x:auto}.mc{flex:none;width:100px;font-size:12px;cursor:pointer}.mc .art{border-radius:12px;overflow:hidden}.mc b{display:block;margin:5px 0}
+h4,h5{margin:20px 0 8px}h5{color:var(--s);margin:12px 0 6px}
+label.f{display:block;margin:10px 0 4px;color:var(--s);font-size:13px}.sp{display:flex;gap:10px}.sp>div{flex:1}.sp input{width:100%}
+.dwrap{max-width:1100px;margin:0 auto}
+.dp{display:grid;grid-template-columns:minmax(0,420px) 1fr;gap:30px;background:var(--c);border:1px solid var(--ln);border-radius:24px;padding:24px;margin-top:14px}
+.dp .art{border-radius:18px;overflow:hidden}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.rp,.sm{background:rgba(255,255,255,.04);border:1px solid var(--ln);border-radius:12px;padding:9px 14px;cursor:pointer;font-size:14px}.sm{color:var(--s)}
+.kick{color:var(--cy);letter-spacing:3px;font-weight:700;font-size:12px}
+.dp h2{margin:12px 0;font-size:clamp(30px,5vw,48px);letter-spacing:-1.5px;line-height:1.05}
+.subt{color:var(--s);font-size:18px;margin-bottom:16px}
+.chp{display:flex;gap:10px;margin-bottom:18px}.ci{border:1px solid var(--ln);border-radius:12px;padding:9px 14px;background:rgba(255,255,255,.04)}
+.dsc{font-size:18px;color:#cfcdf0;margin:0 0 14px}
+.dp .hs .tg{font-size:12px;padding:5px 11px;border-radius:9px;background:#14213f;color:#9fd0ff;border-color:#24406f}
+.pri.big{margin:24px 0 26px;padding:17px;font-size:17px}
+.mh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}.mh h3{margin:0;font-size:22px}.mh span{color:var(--s);font-size:13px}
+.mg{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.mc{background:var(--bg);border:1px solid var(--ln);border-radius:14px;overflow:hidden;cursor:pointer}.mc .art{border-radius:0}.mc b{display:block;padding:10px;font-size:14px}
+@media(max-width:760px){.dp{grid-template-columns:1fr;padding:14px}.mg{grid-template-columns:repeat(2,1fr)}}
+.av{width:40px;height:40px;border-radius:50%;object-fit:cover;display:inline-grid;place-items:center;background:linear-gradient(135deg,var(--a),var(--a2));font-weight:800;color:#fff;border:2px solid var(--ln);cursor:pointer;padding:0}
+.login{position:fixed;inset:0;z-index:40;background:radial-gradient(900px 500px at 50% 0,var(--bgg) 0,transparent 60%),var(--bg);display:none;overflow:auto;padding:24px 16px}.login.open{display:block}
+.lc{max-width:420px;margin:8vh auto 0;text-align:center}.lc .logo{justify-content:center;font-size:34px;margin-bottom:6px}
+.gbtn{width:100%;background:#fff;color:#1f1f1f;border:0;border-radius:14px;padding:14px;font-weight:700;font-size:16px;margin-top:20px;cursor:pointer}
+.or{color:var(--s);margin:18px 0 8px;font-size:13px}
+.lc input[type=text]{width:100%;margin-bottom:10px}
+.urow{display:flex;align-items:center;gap:12px;background:var(--c);border:1px solid var(--ln);border-radius:14px;padding:10px 12px;margin:8px 0;text-align:left;cursor:pointer}.urow.cur{border-color:var(--a)}.urow b{display:block}.urow small{color:var(--s)}
+.pr{position:absolute;right:14px;top:62px;z-index:30;width:min(320px,92vw);background:var(--c);border:1px solid var(--ln);border-radius:16px;padding:14px;display:none;box-shadow:0 20px 50px rgba(0,0,0,.5)}.pr.open{display:block}
+.pr .urow{cursor:default}.pr button.it{display:block;width:100%;text-align:left;background:none;border:0;padding:10px 6px;border-radius:10px;cursor:pointer}.pr button.it:hover{background:var(--c2)}
+.cta,.pri,.seg .on,.gbtn:hover,.fab,.av{box-shadow:0 0 20px rgba(var(--g),.6),0 0 42px rgba(var(--g2),.25)}
+.logo i{box-shadow:0 0 18px rgba(var(--g),.7)}.kick,.hero small{text-shadow:0 0 12px rgba(39,243,255,.7)}
+.card:hover,.mc:hover{border-color:var(--a);box-shadow:0 0 22px rgba(var(--g),.4)}.ch.sel{box-shadow:0 0 12px rgba(var(--g),.6)}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--a);box-shadow:0 0 12px rgba(var(--g),.5)}
+.pri.done{box-shadow:0 0 20px rgba(79,214,160,.5)}
+.cta,.pri:not(.done),.seg .on,.ch.sel:not(.b2){color:var(--on)}
+.sw{display:flex;align-items:center;gap:8px;padding:8px 12px 8px 8px;border-radius:99px;border:1px solid var(--ln);background:var(--bg);cursor:pointer}.sw i{width:22px;height:22px;border-radius:50%;display:block}
+.cr{display:flex;align-items:center;justify-content:space-between;margin:10px 0}.cr input[type=color]{width:64px;height:38px;border:1px solid var(--ln);border-radius:10px;background:var(--bg);padding:2px;cursor:pointer}
+.pill2{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.04);border:1px solid var(--ln);border-radius:99px;padding:4px 14px 4px 4px;cursor:pointer;max-width:150px}
+.pill2 .av{width:32px;height:32px;font-size:13px;box-shadow:none;border:0}.pill2 span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:12px;margin:18px 0}
+.pt{cursor:pointer;background:var(--c);border:1px solid var(--ln);border-radius:16px;padding:16px 8px;text-align:center}.pt:hover{border-color:var(--a);box-shadow:0 0 18px rgba(var(--g),.4)}
+.pt .av{width:64px;height:64px;font-size:24px;display:grid;margin:0 auto;box-shadow:none}.pt b{display:block;margin-top:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.art svg{width:100%;height:100%;display:block}
+#toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:#fff;color:#111;padding:10px 16px;border-radius:99px;z-index:50;display:none}
+</style></head><body><div class="wrap">
+<header><div class="logo"><i>🎮</i>YouPlay</div><div class="acts"><button id="th">🎨 Theme</button><button id="ml">📚 My library</button><button id="fb">⚙ Filters</button><label class="b">+ Import artwork<input type="file" id="imp" multiple accept="image/*" hidden></label><button id="add">+ Add</button><button id="rs">↺ Reset</button><button class="pill2" id="avb"></button></div></header><div class="pr" id="pr"></div>
+<div class="seg" id="tabs"><button data-t="game">🎮 Games</button><button data-t="album">♫ Albums</button></div>
+<section class="hero"><div><small>YOUR NEXT FAVORITE</small><h1 id="h1"></h1><p>Tell YouPlay what you like. Your best matches rise to the top.</p></div><button class="cta" id="tune">Tune my taste ↗</button></section>
+<div class="row"><input type="search" id="q" placeholder="Search games, albums, artists..."><select id="so"><option value="match">Sort: Best match</option><option value="az">Sort: A to Z</option><option value="big">Sort: Largest first</option><option value="small">Sort: Smallest first</option></select></div>
+<div class="pills" id="pills"><button data-v="all">All</button><button data-v="must">Must Play</button><button data-v="rec">Recommended</button><button data-v="try">Try Out</button></div>
+<div class="sh"><h2>Your matches</h2><span id="cnt"></span></div><div class="grid" id="grid"></div></div>
+<div class="login" id="lg"></div><div class="ov" id="dt"></div><div class="ov" id="sh"></div><div id="toast"></div>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])),norm=s=>s.toLowerCase().replace(/[^a-z0-9]/g,"");
+// [title, description, attributes (max 5 kept), size in GB]
+const G=[
+["Alan Wake 2","A psychological survival horror adventure.","Story,Singleplayer,Horror,Exploration,Atmospheric",20],
+["Baldur's Gate 3","A story-rich role-playing adventure.","Story,RPG,Exploration,Singleplayer,Choices",150],
+["Black Myth: Wukong","An action RPG inspired by Chinese mythology.","Action,RPG,Story,Singleplayer,Fantasy",130],
+["Cyberpunk 2077","An open-world futuristic RPG.","Story,Open World,RPG,Exploration,Action,Singleplayer",70],
+["Dark Souls III","A challenging action RPG.","Action,RPG,Difficulty,Fantasy,Singleplayer",25],
+["Death Stranding","A strange and atmospheric open-world journey.","Story,Open World,Exploration,Singleplayer,Atmospheric",80],
+["Doom Eternal","A fast and aggressive first-person shooter.","Action,FPS,Difficulty,Singleplayer,Violence",80],
+["Elden Ring","An open-world action RPG.","Open World,RPG,Exploration,Difficulty,Fantasy,Action",60],
+["Forza Horizon 5","An open-world racing game.","Racing,Open World,Exploration,Multiplayer,Cars",120],
+["God of War","A cinematic action adventure.","Story,Action,Adventure,Singleplayer,Fantasy",70],
+["God of War Ragnarök","A cinematic Norse mythology adventure.","Story,Action,Adventure,Singleplayer,Fantasy",90],
+["Grand Theft Auto V","An open-world action game.","Open World,Action,Story,Multiplayer,Cars",105],
+["Hades","A fast-paced roguelike action game.","Action,Roguelike,Difficulty,Story,Singleplayer",15],
+["Hogwarts Legacy","An open-world fantasy RPG.","Open World,RPG,Story,Exploration,Fantasy,Singleplayer",85],
+["Hollow Knight","A challenging atmospheric metroidvania.","Action,Difficulty,Exploration,Atmospheric,Fantasy,Singleplayer",9],
+["Horizon Forbidden West","An open-world action RPG.","Open World,RPG,Story,Exploration,Action,Singleplayer",100],
+["It Takes Two","A cooperative adventure game.","Co-op,Story,Adventure,Multiplayer,Platformer",50],
+["Marvel's Spider-Man Remastered","An open-world superhero adventure.","Open World,Action,Story,Exploration,Singleplayer",75],
+["Minecraft","A sandbox survival and building game.","Open World,Exploration,Survival,Multiplayer,Sandbox",1],
+["No Man's Sky","A massive space exploration adventure.","Open World,Exploration,Survival,Multiplayer,Space",15],
+["Portal 2","A puzzle adventure with a memorable story.","Puzzle,Story,Co-op,Singleplayer,Comedy",12],
+["Red Dead Redemption 2","A massive open-world western adventure.","Open World,Story,Exploration,Action,Singleplayer,Adventure",150],
+["Sekiro: Shadows Die Twice","A demanding action game focused on combat.","Action,Difficulty,Singleplayer,Story,Combat",15],
+["Stardew Valley","A relaxing farming and life simulation game.","Relaxing,Simulation,Exploration,Multiplayer,Sandbox",0.5],
+["The Elder Scrolls V: Skyrim","A huge open-world fantasy RPG.","Open World,RPG,Exploration,Fantasy,Story,Singleplayer",16],
+["The Witcher 3","A large fantasy RPG with a story-driven world.","Open World,RPG,Story,Exploration,Fantasy,Singleplayer",50],
+["Titanfall 2","A fast-paced FPS with a strong campaign.","FPS,Action,Story,Multiplayer,Singleplayer",45],
+["Uncharted 4","A cinematic treasure-hunting adventure.","Story,Action,Adventure,Exploration,Singleplayer",60],
+["Valheim","A survival adventure set in a Viking world.","Survival,Open World,Exploration,Multiplayer,Fantasy",2],
+["Zenless Zone Zero","An urban fantasy action RPG with stylish combat.","Action,RPG,Story,Fantasy,Combat",50],
+["Resident Evil 4","A tense survival horror remake.","Horror,Action,Story,Singleplayer,Survival",60],
+["Celeste","A tough, heartfelt mountain-climbing platformer.","Platformer,Difficulty,Story,Singleplayer,Atmospheric",1.2],
+["Terraria","A 2D sandbox of digging, building and fighting.","Sandbox,Survival,Exploration,Multiplayer,Co-op",1],
+["Genshin Impact","A colorful open-world fantasy adventure.","Open World,RPG,Exploration,Fantasy,Multiplayer",100]];
+// [artist, album, description, attributes, size in MB]
+const A=[
+["Arctic Monkeys","AM","English rock band.","Rock,Alternative,Indie,Vocals,Guitar",90],
+["Billie Eilish","HIT ME HARD AND SOFT","American singer-songwriter.","Pop,Alternative,Vocals,Electronic,Atmospheric",110],
+["Daft Punk","Random Access Memories","French electronic duo.","Electronic,Dance,Funk,Instrumental,Experimental",160],
+["Kendrick Lamar","DAMN.","American rapper.","Hip Hop,Rap,Storytelling,Vocals,Experimental",105],
+["Linkin Park","Meteora","American rock band.","Rock,Metal,Alternative,Vocals,Emotional",95],
+["Radiohead","OK Computer","English alternative rock band.","Rock,Alternative,Experimental,Atmospheric,Guitar",100],
+["The Weeknd","After Hours","Canadian singer.","Pop,R&B,Electronic,Vocals,Atmospheric",115],
+["Ed Sheeran","÷ (Divide)","English singer-songwriter.","Pop,Vocals,Guitar,Emotional,Storytelling",130],
+["Taylor Swift","1989","American singer-songwriter.","Pop,Electronic,Dance,Vocals,Emotional",120],
+["OneRepublic","Native","American pop rock band.","Pop,Rock,Alternative,Vocals,Emotional",110],
+["One Direction","Midnight Memories","English-Irish boy band.","Pop,Rock,Guitar,Vocals,Emotional",140],
+["Pink Floyd","The Dark Side of the Moon","English progressive rock band.","Rock,Experimental,Atmospheric,Instrumental,Guitar",85],
+["Fleetwood Mac","Rumours","British-American rock band.","Rock,Pop,Vocals,Emotional,Guitar",90],
+["Eminem","The Marshall Mathers LP","American rapper.","Hip Hop,Rap,Storytelling,Vocals,Emotional",150],
+["Dua Lipa","Future Nostalgia","English-Albanian pop singer.","Pop,Dance,Electronic,Funk,Vocals",100],
+["Tame Impala","Currents","Australian psychedelic project.","Alternative,Electronic,Experimental,Atmospheric,Indie",130],
+["Coldplay","A Rush of Blood to the Head","English rock band.","Rock,Alternative,Emotional,Vocals,Guitar",90],
+["Queen","A Night at the Opera","British rock band.","Rock,Experimental,Vocals,Guitar,Storytelling",120],
+["Adele","21","English singer-songwriter.","Pop,R&B,Vocals,Emotional,Storytelling",95]];
+const BASE=[...G.map((r,n)=>({id:"g"+n,type:"game",title:r[0],sub:"",desc:r[1],attrs:r[2].split(",").slice(0,5),mb:r[3]*1000})),
+ ...A.map((r,n)=>({id:"a"+n,type:"album",title:r[1],sub:r[0],desc:r[2],attrs:r[3].split(",").slice(0,5),mb:r[4]}))];
+const LB={must:"Must Play",rec:"Recommended",try:"Try Out"};
+let S={tab:"game",tier:"all",sort:"match",q:"",p:{game:[],album:[]},b:{game:[],album:[]},f:{game:[],album:[]},dl:[],lib:[],custom:[],art:{}},mode="p";
+let U={users:{},cur:null};               // accounts known on this device
+const ld=k=>{try{return JSON.parse(localStorage.getItem(k)||"null")}catch(e){return null}};
+const uk=id=>"youplay_u_"+id;
+(()=>{const d=ld("youplay_v2")||{};["custom","art"].forEach(k=>d[k]&&(S[k]=d[k]));S._old=d;const u=ld("youplay_users");if(u)U=u})();
+function save(){try{localStorage.setItem("youplay_v2",JSON.stringify({custom:S.custom,art:S.art}));localStorage.setItem("youplay_users",JSON.stringify(U));
+ if(U.cur)localStorage.setItem(uk(U.cur),JSON.stringify({p:S.p,b:S.b,f:S.f,dl:S.dl,lib:S.lib}))}catch(e){toast("Storage full. Use smaller images.")}}
+function loadUser(id){const d=ld(uk(id))||(Object.keys(U.users).length<=1&&S._old.p?S._old:{})||{};
+ S.p=d.p||{game:[],album:[]};S.b=d.b||{game:[],album:[]};S.f=d.f||{game:[],album:[]};S.dl=d.dl||[];S.lib=d.lib||[];S.tier="all";S.q="";$("#q").value="";U.cur=id;save();render();paintUser()}
+const toast=m=>{const t=$("#toast");t.textContent=m;t.style.display="block";clearTimeout(t._t);t._t=setTimeout(()=>t.style.display="none",2400)};
+const all=()=>[...BASE,...S.custom],byId=id=>all().find(x=>x.id===id);
+const ok=i=>!i.attrs.some(a=>S.b[i.type].includes(a));                 // ban filter
+const shown=t=>all().filter(i=>i.type===t&&ok(i));
+const score=i=>i.attrs.filter(a=>S.p[i.type].includes(a)).length;
+const rank=(a,b)=>score(b)-score(a)||a.title.localeCompare(b.title);
+const fmt=mb=>mb>=1000?+(mb/1000).toFixed(1)+" GB":mb+" MB";
+const attrsOf=t=>[...new Set(all().filter(i=>i.type===t).flatMap(i=>i.attrs))].sort();
+function tiers(){const m={};["game","album"].forEach(t=>{if(S.p[t].length)shown(t).sort(rank).forEach((i,n)=>m[i.id]=n<2?"must":n<5?"rec":"try")});return m}
+const bd=(T,i)=>T[i.id]?`<span class="bd ${T[i.id]}">${LB[T[i.id]]}</span>`:"";
+const HUES={Horror:350,"Sci-Fi":225,Space:225,Fantasy:275,Racing:15,Survival:135,Relaxing:170,Roguelike:300,Rock:5,Pop:320,Electronic:200,"Hip Hop":40,Jazz:30,Metal:0};
+const hx=(h,sa,l)=>{sa/=100;l/=100;const k=n=>(n+h/30)%12,a=sa*Math.min(l,1-l),f=n=>Math.round(255*(l-a*Math.max(-1,Math.min(k(n)-3,9-k(n),1)))).toString(16).padStart(2,"0");return"#"+f(0)+f(8)+f(4)};
+function genArt(i){ // original generated cover, used until you add a real one
+ let sd=[...(i.id+i.title)].reduce((x,c)=>(x*31+c.charCodeAt(0))>>>0,7);const R=()=>(sd=(sd*1664525+1013904223)>>>0)/4294967296;
+ const al=i.type==="album",W=300,H=al?300:400,hk=i.attrs.find(a=>HUES[a]!==undefined),h=hk?HUES[hk]:Math.floor(R()*360),h2=(h+40+Math.floor(R()*50))%360;let sh="";
+ for(let k=0;k<7;k++){const x=R()*W|0,y=R()*H|0,r=30+R()*90|0,o=(.08+R()*.14).toFixed(2),t=Math.floor(R()*3);
+  sh+=t==0?`<circle cx="${x}" cy="${y}" r="${r}" fill="#fff" fill-opacity="${o}"/>`:t==1?`<rect x="${x}" y="${y}" width="${r*1.6|0}" height="${r*1.6|0}" fill="#fff" fill-opacity="${o}" transform="rotate(${R()*90|0} ${x} ${y})"/>`:`<polygon points="${x},${y} ${x+r*2},${y+r} ${x+r*.4|0},${y+r*2}" fill="#fff" fill-opacity="${o}"/>`}
+ if(al)sh+='<circle cx="190" cy="115" r="95" fill="#000" fill-opacity=".45"/>'+[80,64,48].map(r=>`<circle cx="190" cy="115" r="${r}" fill="none" stroke="#fff" stroke-opacity=".14" stroke-width="2"/>`).join("")+`<circle cx="190" cy="115" r="26" fill="${hx(h2,80,60)}"/><circle cx="190" cy="115" r="5" fill="#111"/>`;
+ const lines=[];let cur="";i.title.split(" ").forEach(w=>{if((cur+" "+w).trim().length>(al?13:11)&&cur){lines.push(cur);cur=w}else cur=(cur+" "+w).trim()});if(cur)lines.push(cur);
+ const L=lines.slice(0,3),fs=Math.max(20,Math.min(40,Math.floor((W-36)/(Math.max(...L.map(l=>l.length))*.58)))),y0=H-24-(L.length-1)*fs*1.1;
+ const tx=L.map((l,n)=>`<text x="18" y="${y0+n*fs*1.1|0}" font-size="${fs}" font-weight="800" fill="#fff" font-family="Arial Black,Arial,sans-serif">${esc(l)}</text>`).join("");
+ const sub=al&&i.sub?`<text x="18" y="${y0-fs-6|0}" font-size="15" fill="#fff" fill-opacity=".85" font-family="Arial,sans-serif">${esc(i.sub)}</text>`:"";
+ return`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g${i.id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${hx(h,70,42)}"/><stop offset="1" stop-color="${hx(h2,70,18)}"/></linearGradient><linearGradient id="s${i.id}" x1="0" y1="0" x2="0" y2="1"><stop offset=".45" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".6"/></linearGradient></defs><rect width="${W}" height="${H}" fill="url(#g${i.id})"/>${sh}<rect width="${W}" height="${H}" fill="url(#s${i.id})"/>${sub}${tx}</svg>`}
+function art(i,T,sq){const a=S.art[i.id];
+ return`<div class="art ${i.type==="album"?"sq":""}">${a?`<img src="${a}" alt="">`:genArt(i)}${T?bd(T,i):""}</div>`}
+function list(){const T=tiers(),q=S.q.toLowerCase();
+ const f={match:(a,b)=>S.p[S.tab].length?rank(a,b):a.title.localeCompare(b.title),az:(a,b)=>a.title.localeCompare(b.title),big:(a,b)=>b.mb-a.mb,small:(a,b)=>a.mb-b.mb}[S.sort];
+ return shown(S.tab).filter(i=>S.f[S.tab].every(a=>i.attrs.includes(a))&&(S.tier==="all"||T[i.id]===S.tier)&&(i.title+" "+i.sub).toLowerCase().includes(q)).sort(f)}
+function render(){const T=tiers(),l=list(),t=S.tab;
+ $("#h1").textContent=t==="game"?"Find your next game.":"Find your next album.";
+ $("#grid").innerHTML=l.map(i=>`<div class="card" data-id="${i.id}">${art(i,T)}<div class="cb"><b>${esc(i.title)}</b>${i.sub?`<em>${esc(i.sub)}</em>`:""}<span class="sz">${fmt(i.mb)}</span><div class="tags">${i.attrs.map(a=>`<span class="tg ${S.p[t].includes(a)?"on":""}">${a}</span>`).join("")}</div></div></div>`).join("")||'<p class="emp">Nothing matches. Clear a filter or tier.</p>';
+ $("#cnt").textContent=l.length+(t==="game"?" games":" albums");
+ document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));
+ document.querySelectorAll("#pills button").forEach(b=>b.classList.toggle("on",b.dataset.v===S.tier));
+ const n=S.p[t].length+S.b[t].length+S.f[t].length;$("#fb").textContent="⚙ Filters"+(n?` (${n})`:"")}
+
+function openItem(id){const i=byId(id),T=tiers(),g=i.type==="game",L=g?"dl":"lib",has=S[L].includes(id);
+ $("#dt").innerHTML=`<div class="dwrap"><button class="b" id="bk">‹ Back</button>
+ <div class="dp"><div>${art(i,null)}</div><div>
+  <div class="tools"><label class="rp">🖼 Replace artwork<input type="file" accept="image/*" hidden id="fi"></label>${S.art[i.id]?'<button class="sm" id="ri">Remove artwork</button>':""}${i.id[0]==="c"?'<button class="sm" id="del">Delete</button>':""}</div>
+  <div class="kick">${g?"GAME":"ALBUM"} DETAILS</div><h2>${esc(i.title)}</h2>
+  <div class="subt">${g?"Steam / PC game":esc(i.sub)}</div>
+  <div class="chp"><span class="ci">${g?"▣":"💿"} ${fmt(i.mb)}</span><span class="ci">${g?"PC":"Album"}</span></div>
+  <p class="dsc">${esc(i.desc)}</p><div class="hs">${i.attrs.map(a=>`<span class="tg ${S.p[i.type].includes(a)?"on":""}">${a}</span>`).join("")}</div>
+  <button class="pri big ${has?"done":""}" id="dl">${has?(g?"Downloading on your PC":"Added to your library"):(g?"↓ Download on your PC":"+ Add to library")}</button>
+  ${more(i,T)}</div></div></div>`;
+ $("#dt").classList.add("open");$("#dt").scrollTop=0;
+ $("#bk").onclick=()=>$("#dt").classList.remove("open");
+ $("#dl").onclick=()=>{S[L]=S[L].includes(id)?S[L].filter(x=>x!==id):[...S[L],id];save();toast(S[L].includes(id)?(g?"Saved to your downloads":"Saved to your library"):"Removed");openItem(id)};
+ $("#fi").onchange=async e=>{if(e.target.files[0]){S.art[id]=await shrink(e.target.files[0],i.type);save();render();openItem(id)}};
+ if($("#ri"))$("#ri").onclick=()=>{delete S.art[id];save();render();openItem(id)};
+ if($("#del"))$("#del").onclick=()=>{if(confirm("Delete this item?")){S.custom=S.custom.filter(x=>x.id!==id);delete S.art[id];save();render();$("#dt").classList.remove("open")}}}
+function more(cur,T){const t=cur.type,has=S.p[t].length,sim=i=>i.attrs.filter(a=>cur.attrs.includes(a)).length;
+ const l=shown(t).filter(i=>i.id!==cur.id).sort(has?rank:(a,b)=>sim(b)-sim(a)||a.title.localeCompare(b.title));
+ // with a taste set: Must Play first, then Recommended; always fill to 4
+ const p=has?[...l.filter(i=>T[i.id]==="must"),...l.filter(i=>T[i.id]==="rec"),...l.filter(i=>T[i.id]==="try")].slice(0,4):l.slice(0,4);
+ return`<div class="mh"><h3>More for you</h3><span>${has?"Based on your preferences":"Similar to this one. Tune your taste for better picks"}</span></div><div class="mg">${p.map(i=>`<div class="mc" data-id="${i.id}">${art(i,has?T:null)}<b>${esc(i.title)}</b></div>`).join("")}</div>`}
+const shrink=(f,type)=>new Promise(r=>{const im=new Image,u=URL.createObjectURL(f),W=360,H=type==="album"?360:480;
+ im.onload=()=>{const k=Math.max(W/im.width,H/im.height),w=W/k,h=H/k,c=document.createElement("canvas");c.width=W;c.height=H;
+  c.getContext("2d").drawImage(im,(im.width-w)/2,(im.height-h)/2,w,h,0,0,W,H);URL.revokeObjectURL(u);r(c.toDataURL("image/jpeg",.8))};im.src=u});
+async function importArt(files){let n=0;
+ for(const f of files){const nm=norm(f.name.replace(/\.[^.]+$/,""));let best=null,bs=0;
+  for(const i of all()){for(const k of [i.title,i.sub,i.sub+" "+i.title,i.sub+" - "+i.title]){const x=norm(k);if(!x)continue;
+   const s=nm===x?1e3:(x.length>3&&nm.includes(x))?x.length:0;if(s>bs){bs=s;best=i}}}
+  if(best){S.art[best.id]=await shrink(f,best.type);n++}}
+ save();render();toast(`Matched ${n} of ${files.length} images by file name`)}
+
+const HINT={p:"Pick up to 7 you enjoy. Top 2 matches become Must Play, the next 3 Recommended, the rest Try Out.",b:"Anything with even one banned attribute is hidden.",f:"Show only items that have all the attributes you pick."};
+function sheet(m){if(m)mode=m;const L=S[mode][S.tab];
+ $("#sh").innerHTML=`<div class="pan"><h3 style="margin:0">Tune your ${S.tab==="game"?"game":"album"} taste</h3>
+ <div class="sg">${[["p",`I like (${S.p[S.tab].length}/7)`],["b",`Ban (${S.b[S.tab].length})`],["f",`Filter (${S.f[S.tab].length})`]].map(([k,n])=>`<button data-m="${k}" class="${k===mode?"on":""}">${n}</button>`).join("")}</div>
+ <p class="hint">${HINT[mode]}</p><div class="chips">${attrsOf(S.tab).map(a=>`<button class="ch ${L.includes(a)?"sel "+(mode==="b"?"b2":""):""}" data-a="${a}">${a}</button>`).join("")}</div>
+ <button class="lnk" id="clr">Clear this list</button><button class="pri" id="ok">Show results</button></div>`;$("#sh").classList.add("open")}
+function tog(a){const t=S.tab,L=S[mode][t];
+ if(L.includes(a))S[mode][t]=L.filter(x=>x!==a);
+ else{if(mode==="p"&&L.length>=7)return toast("You can pick up to 7");L.push(a);
+  if(mode==="b"){S.p[t]=S.p[t].filter(x=>x!==a);S.f[t]=S.f[t].filter(x=>x!==a)}if(mode==="p")S.b[t]=S.b[t].filter(x=>x!==a)}
+ save();sheet();render()}
+function addForm(){let sel=[];const t=S.tab,pool=attrsOf(t);
+ $("#sh").innerHTML=`<div class="pan"><h3 style="margin:0">Add a ${t}</h3>
+ <label class="f">${t==="game"?"Title":"Album name"}</label><input type="text" id="fn" style="width:100%"><label class="f">${t==="game"?"Developer":"Artist"}</label><input type="text" id="fa" style="width:100%">
+ <div class="sp"><div><label class="f">Size (MB)</label><input type="number" id="fs" value="100"></div><div><label class="f">Artwork (optional)</label><input type="file" id="fp" accept="image/*"></div></div>
+ <label class="f">Description</label><textarea id="fd" rows="2" style="width:100%"></textarea>
+ <label class="f" id="fc">Pick exactly 5 attributes (0/5)</label><div class="chips">${pool.map(a=>`<button class="ch" data-q="${a}">${a}</button>`).join("")}</div>
+ <button class="pri" id="sv">Save</button><button class="lnk" id="cx">Cancel</button></div>`;
+ $("#sh").classList.add("open");let pic="";$("#fp").onchange=async e=>{if(e.target.files[0])pic=await shrink(e.target.files[0],t)};
+ $("#sh").onclick=e=>{const b=e.target.closest("button");if(!b)return;
+  if(b.dataset.q){const a=b.dataset.q;if(sel.includes(a))sel=sel.filter(x=>x!==a);else if(sel.length<5)sel.push(a);else toast("Exactly 5 attributes");
+   document.querySelectorAll("[data-q]").forEach(x=>x.classList.toggle("sel",sel.includes(x.dataset.q)));$("#fc").textContent=`Pick exactly 5 attributes (${sel.length}/5)`}
+  if(b.id==="cx")closeSheet();
+  if(b.id==="sv"){if(!$("#fn").value.trim())return toast("Add a title");if(sel.length!==5)return toast("Pick exactly 5 attributes");
+   const id="c"+Date.now();S.custom.push({id,type:t,title:$("#fn").value.trim(),sub:$("#fa").value.trim(),mb:+$("#fs").value||1,desc:$("#fd").value.trim()||"No description yet.",attrs:sel});
+   if(pic)S.art[id]=pic;save();closeSheet();render();toast("Added")}}}
+function closeSheet(){$("#sh").classList.remove("open");$("#sh").onclick=shClick}
+function shClick(e){const b=e.target.closest("button");if(e.target.id==="sh"||(b&&b.id==="ok"))return closeSheet();if(!b)return;
+ if(b.dataset.m)sheet(b.dataset.m);if(b.dataset.a)tog(b.dataset.a);if(b.id==="clr"){S[mode][S.tab]=[];save();sheet();render()}}
+$("#sh").onclick=shClick;
+$("#fb").onclick=()=>sheet("f");$("#tune").onclick=()=>sheet("p");$("#add").onclick=addForm;
+$("#imp").onchange=e=>importArt([...e.target.files]);
+$("#rs").onclick=()=>{if(confirm("Reset taste, bans and filters for games and albums? Your artwork stays.")){S.p={game:[],album:[]};S.b={game:[],album:[]};S.f={game:[],album:[]};S.tier="all";S.q="";$("#q").value="";save();render()}};
+$("#q").oninput=e=>{S.q=e.target.value;render()};$("#so").onchange=e=>{S.sort=e.target.value;render()};
+$("#tabs").onclick=e=>{if(e.target.dataset.t){S.tab=e.target.dataset.t;S.tier="all";render()}};
+$("#pills").onclick=e=>{if(e.target.dataset.v){S.tier=e.target.dataset.v;render()}};
+$("#grid").onclick=e=>{const c=e.target.closest(".card");if(c)openItem(c.dataset.id)};
+$("#dt").addEventListener("click",e=>{const c=e.target.closest(".mc");if(c)openItem(c.dataset.id)});
+
+const ini=n=>(n||"?").trim().split(/\s+/).slice(0,2).map(w=>w[0]).join("").toUpperCase();
+const hue=n=>[...(n||"?")].reduce((x,c)=>x*31+c.charCodeAt(0)|0,7)%360;
+const avatar=(u,c="av")=>{const h=hue(u&&u.name);return`<span class="${c}" style="background:linear-gradient(135deg,hsl(${h} 70% 52%),hsl(${(h+50)%360} 70% 36%))">${esc(ini(u&&u.name))}</span>`};
+function paintUser(){const u=U.users[U.cur];$("#avb").innerHTML=u?avatar(u)+`<span>${esc(u.name)}</span>`:"Sign in";$("#avb").onclick=profile}
+function addUser(u){U.users[u.id]=u;save();hideLogin();loadUser(u.id);toast("Welcome, "+u.name)}
+function localUser(){const n=$("#ln").value.trim().replace(/\s+/g," ");if(!n)return toast("Type a name first");
+ if(Object.values(U.users).some(u=>u.name.toLowerCase()===n.toLowerCase()))return toast("That name is already taken");
+ addUser({id:"u_"+Date.now().toString(36),name:n,email:"Profile on this device",photo:""})}
+function showLogin(){const known=Object.values(U.users),can=U.cur&&U.users[U.cur];
+ $("#lg").innerHTML=`<div class="lc"><div class="logo"><i>🎮</i>YouPlay</div><h2 style="margin:16px 0 4px">Who’s playing?</h2>
+ <p class="hint">${known.length?"Pick a profile. Each one keeps its own downloads, library and taste.":"Create a profile to get started. You can add more later and switch between them."}</p>
+ ${known.length?`<div class="pg">${known.map(u=>`<div class="pt" data-u="${u.id}">${avatar(u)}<b>${esc(u.name)}</b></div>`).join("")}</div>`:""}
+ <div class="or">${known.length?"Add a new profile":"Your name"}</div><input type="text" id="ln" maxlength="24" placeholder="Type a name">
+ <button class="pri" id="lp">Create profile</button>${can?'<button class="lnk" id="lcn" style="margin:0 auto">Cancel</button>':""}</div>`;
+ $("#lg").classList.add("open");$("#lp").onclick=localUser;$("#ln").onkeydown=e=>{if(e.key==="Enter")localUser()};
+ $("#lg").onclick=e=>{const r=e.target.closest("[data-u]");if(r){hideLogin();loadUser(r.dataset.u)}if(e.target.id==="lcn")hideLogin()}}
+const hideLogin=()=>$("#lg").classList.remove("open");
+function profile(e){e&&e.stopPropagation();const pr=$("#pr"),u=U.users[U.cur];if(!u)return showLogin();
+ pr.innerHTML=`<div class="urow cur">${avatar(u)}<div><b>${esc(u.name)}</b><small>${S.dl.length} downloading · ${S.lib.length} in library</small></div></div>
+ ${Object.values(U.users).filter(x=>x.id!==U.cur).map(x=>`<div class="urow" data-sw="${x.id}" style="cursor:pointer">${avatar(x)}<div><b>${esc(x.name)}</b><small>Switch to this profile</small></div></div>`).join("")}
+ <button class="it" id="pa">+ Add profile</button><button class="it" id="pd" style="color:#ff7b7b">Delete this profile</button>`;
+ pr.classList.toggle("open");
+ pr.onclick=ev=>{ev.stopPropagation();const w=ev.target.closest("[data-sw]");if(w){pr.classList.remove("open");loadUser(w.dataset.sw)}
+  if(ev.target.id==="pa"){pr.classList.remove("open");showLogin()}
+  if(ev.target.id==="pd"){pr.classList.remove("open");if(!confirm("Delete profile “"+u.name+"” and its saved downloads and library?"))return;
+   const id=U.cur;delete U.users[id];try{localStorage.removeItem(uk(id))}catch(x){}U.cur=null;save();const rest=Object.keys(U.users);
+   if(rest.length)loadUser(rest[0]);else{S.p={game:[],album:[]};S.b={game:[],album:[]};S.f={game:[],album:[]};S.dl=[];S.lib=[];render();paintUser();showLogin()}}}}
+document.addEventListener("click",e=>{if(!e.target.closest("#pr"))$("#pr").classList.remove("open")});
+function myLib(){const u=U.users[U.cur],gs=S.dl.map(byId).filter(Boolean),as=S.lib.map(byId).filter(Boolean);
+ const grid=l=>l.length?`<div class="mg">${l.map(i=>`<div class="mc" data-id="${i.id}">${art(i,null)}<b>${esc(i.title)}</b></div>`).join("")}</div>`:'<p class="hint">Nothing here yet.</p>';
+ $("#dt").innerHTML=`<div class="dwrap"><button class="b" id="bk">‹ Back</button><div class="dp" style="display:block"><div class="kick">${esc(u?u.name.toUpperCase():"")}'S LIBRARY</div><h2>My library</h2>
+ <div class="mh"><h3>Downloading on your PC</h3><span>${gs.length} games</span></div>${grid(gs)}<div class="mh" style="margin-top:26px"><h3>Albums in your library</h3><span>${as.length} albums</span></div>${grid(as)}</div></div>`;
+ $("#dt").classList.add("open");$("#dt").scrollTop=0;$("#bk").onclick=()=>$("#dt").classList.remove("open")}
+$("#ml").onclick=myLib;
+
+// ===== Theme: pick your own colors (saved on this device) =====
+const TH0={a:"#a63dff",b:"#d63dff",c:"#27f3ff"};
+let TH=Object.assign({},TH0,ld("youplay_theme")||{});
+const rgb=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
+function applyTheme(){const r=document.documentElement.style,A=rgb(TH.a),B=rgb(TH.b);
+ r.setProperty("--a",TH.a);r.setProperty("--a2",TH.b);r.setProperty("--cy",TH.c);r.setProperty("--g",A.join(","));r.setProperty("--g2",B.join(","));
+ r.setProperty("--bgg","rgb("+A.map(v=>Math.round(v*.45)).join(",")+")");
+ r.setProperty("--on",(.299*A[0]+.587*A[1]+.114*A[2])>150?"#14112b":"#fff")}
+const saveTheme=()=>{try{localStorage.setItem("youplay_theme",JSON.stringify(TH))}catch(e){}};
+const PRE=[["Neon Purple","#a63dff","#d63dff","#27f3ff"],["Neon Pink","#ff2bd6","#ff5c8a","#27f3ff"],["Neon Blue","#2b7bff","#27d3ff","#a6ff4d"],["Neon Green","#2bff88","#d4ff2b","#ff2bd6"],["Sunset","#ff7a1a","#ff2b6a","#ffe14d"],["Crimson","#ff2b4d","#ff7a2b","#27f3ff"]];
+function themeSheet(){
+ $("#sh").innerHTML=`<div class="pan"><h3 style="margin:0">Make it yours</h3><p class="hint">Pick a preset or choose any colors. Changes apply instantly and are saved.</p>
+ <div class="chips">${PRE.map((x,n)=>`<button class="sw" data-pre="${n}"><i style="background:linear-gradient(135deg,${x[1]},${x[2]})"></i>${x[0]}</button>`).join("")}</div>
+ <div class="cr"><span>Main color</span><input type="color" data-c="a" value="${TH.a}"></div>
+ <div class="cr"><span>Second color (buttons fade to this)</span><input type="color" data-c="b" value="${TH.b}"></div>
+ <div class="cr"><span>Highlight color (small labels)</span><input type="color" data-c="c" value="${TH.c}"></div>
+ <button class="lnk" id="trs">Reset to default</button><button class="pri" id="ok">Done</button></div>`;
+ $("#sh").classList.add("open");
+ $("#sh").oninput=e=>{const k=e.target.dataset.c;if(k){TH[k]=e.target.value;applyTheme();saveTheme()}};
+ $("#sh").onclick=e=>{const b=e.target.closest("button");
+  if(b&&b.dataset.pre){const x=PRE[b.dataset.pre];TH={a:x[1],b:x[2],c:x[3]};applyTheme();saveTheme();themeSheet()}
+  else if(b&&b.id==="trs"){TH={...TH0};applyTheme();saveTheme();themeSheet()}
+  else shClick(e)}}
+$("#th").onclick=themeSheet;applyTheme();
+if(U.cur&&U.users[U.cur])loadUser(U.cur);else{render();paintUser();showLogin()}
+</script></body></html>
